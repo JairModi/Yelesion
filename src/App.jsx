@@ -20,7 +20,7 @@ function PortfolioPage() {
       </section>
       <section className="portfolio-list" id="portfolio-list">
         <div className="section-heading"><p className="section-index">01 / The people behind the work</p><p className="side-note">Links coming soon</p></div>
-        <div className="portfolio-buttons"><a className="portfolio-button" href="/Lucasportfolio.html">Portfolio Lucas <span>↗</span></a><button type="button" disabled>Portfolio Dinand <span>↗</span></button><a className="portfolio-button" href="/jair_modiwirijo.html">Portfolio Ja-Ir <span>↗</span></a><button type="button" disabled>Portfolio Hugo <span>↗</span></button></div>
+        <div className="portfolio-buttons"><a className="portfolio-button" href="/Lucasportfolio.html">Portfolio Lucas <span>↗</span></a><button type="button" disabled>Portfolio Dinand <span>↗</span></button><a className="portfolio-button" href="/jair_modiwirijo.html">Portfolio Ja-Ir <span>↗</span></a><a className="portfolio-button" href="/HugoCaspers-portfolio.html">Portfolio Hugo <span>↗</span></a></div>
       </section>
       <footer><p>Software solutions</p><p>© 2026 Yelesion</p></footer>
     </main>
