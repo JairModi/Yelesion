@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ja-ir Modiwirijo — Web Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F9FC;
+    --bg-soft:#FFFFFF;
+    --surface:#FFFFFF;
+    --surface-2:#EFF4FB;
+    --ink:#101828;
+    --muted:#5B6472;
+    --line:#E1E7F0;
+    --line-soft:#EAEFF6;
+    --accent:#0EA5E9;
+    --accent-2:#2563EB;
+    --accent-soft:rgba(14,165,233,0.1);
+    --glow:rgba(14,165,233,0.28);
+    --radius:14px;
+    --max:1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Sora', system-ui, sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* tech grid + glow atmosphere */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
+    opacity:1;
+    pointer-events:none;
+    z-index:0;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    top:-200px;
+    left:50%;
+    transform:translateX(-50%);
+    width:1100px;
+    height:700px;
+    background:radial-gradient(circle, var(--glow) 0%, transparent 68%);
+    opacity:0.28;
+    filter:blur(10px);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 24px;
+    position:relative;
+    z-index:1;
+  }
+
+  .mono{font-family:'Space Mono', monospace;}
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px;
+    height:1px;
+    background:var(--accent);
+    display:inline-block;
+    box-shadow:0 0 8px var(--glow);
+  }
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ---------- hex logo mark ---------- */
+  .hexmark{
+    width:34px;
+    height:34px;
+    position:relative;
+    flex-shrink:0;
+  }
+  .hexmark span{
+    position:absolute;
+    width:9px;
+    height:9px;
+    border-radius:2px;
+    background:var(--line);
+  }
+  .hexmark span.on{
+    background:var(--accent);
+    box-shadow:0 0 9px var(--glow);
+  }
+  .hexmark span:nth-child(1){top:0; left:0;}
+  .hexmark span:nth-child(2){top:0; left:12px;}
+  .hexmark span:nth-child(3){top:12px; left:6px;}
+  .hexmark span:nth-child(4){top:12px; left:18px;}
+  .hexmark span:nth-child(5){top:24px; left:0;}
+  .hexmark span:nth-child(6){top:24px; left:12px;}
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:rgba(247,249,252,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:16px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .nav-brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+  }
+  .nav-logo{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.02em;
+    color:var(--ink);
+  }
+  .nav-logo span{color:var(--accent);}
+  .nav-links{
+    display:flex;
+    gap:30px;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .nav-links a{
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    color:var(--muted);
+    transition:color 0.15s ease;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--ink);}
+  @media (max-width:680px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:88px 24px 64px;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:840px){
+    .hero{grid-template-columns:1fr; padding:52px 24px 40px;}
+  }
+
+  .hero h1{
+    font-family:'Sora', sans-serif;
+    font-weight:800;
+    font-size:clamp(32px, 4.6vw, 52px);
+    line-height:1.12;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p.lede{
+    font-size:16.5px;
+    color:var(--muted);
+    max-width:48ch;
+    margin:0 0 30px;
+  }
+  .hero-ctas{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:13px 22px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    border:1px solid transparent;
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    color:#04121F;
+    box-shadow:0 8px 24px -10px var(--glow);
+  }
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 10px 28px -8px var(--glow);}
+  .btn-ghost{
+    border-color:var(--line);
+    color:var(--ink);
+    background:var(--surface);
+  }
+  .btn-ghost:hover{border-color:var(--accent); transform:translateY(-1px);}
+
+  /* photo panel — angled cut corner like reference */
+  .hero-visual{
+    position:relative;
+    display:flex;
+    justify-content:center;
+  }
+  .photo-panel{
+    width:100%;
+    max-width:340px;
+    aspect-ratio:1/0.82;
+    clip-path:polygon(0 0, 88% 0, 100% 14%, 100% 100%, 0 100%);
+    border:1.5px solid var(--accent);
+    box-shadow:0 0 0 1px rgba(56,189,248,0.15), 0 20px 60px -20px var(--glow);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(56,189,248,0.16), transparent 55%),
+      var(--surface);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    color:var(--muted);
+    font-size:12.5px;
+    text-align:center;
+    position:relative;
+  }
+  .photo-panel svg{opacity:0.55; color:var(--accent);}
+  .photo-badge{
+    position:absolute;
+    bottom:-18px;
+    right:-14px;
+    background:var(--surface-2);
+    border:1px solid var(--accent);
+    border-radius:10px;
+    padding:12px 16px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color:var(--ink);
+    box-shadow:0 10px 30px -12px var(--glow);
+  }
+  .photo-badge b{color:var(--accent); display:block; font-size:13px;}
+  @media (max-width:840px){
+    .hero-visual{justify-content:flex-start; margin-top:12px;}
+    .photo-badge{right:auto; left:16px;}
+  }
+
+  /* ---------- sections ---------- */
+  section{
+    padding:60px 0;
+    border-top:1px solid var(--line);
+  }
+  section h2{
+    font-family:'Sora', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  section > .wrap > p.section-intro{
+    color:var(--muted);
+    max-width:56ch;
+    margin:0 0 40px;
+  }
+
+  /* feature strip (echoes the reference's icon row) */
+  .feature-strip{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+    margin:0 0 8px;
+  }
+  @media (max-width:760px){
+    .feature-strip{grid-template-columns:1fr 1fr;}
+  }
+  .feature-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:13.5px;
+    font-weight:500;
+  }
+  .feature-item .ico{
+    width:32px; height:32px;
+    border-radius:8px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+
+  /* about */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  @media (max-width:760px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+  .about-grid p{color:var(--muted); font-size:15.5px;}
+  .fact-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .fact-list li{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:12px;
+    font-size:14px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .fact-list li:last-child{border-bottom:none;}
+  .fact-list .label{
+    font-family:'Space Mono', monospace;
+    color:var(--accent);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding-top:2px;
+  }
+  .fact-list li span:last-child{color:var(--ink);}
+
+  /* skills */
+  .skill-groups{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  @media (max-width:760px){
+    .skill-groups{grid-template-columns:1fr;}
+  }
+  .skill-group{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+  }
+  .skill-group h3{
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--accent);
+    margin:0 0 16px;
+  }
+  .pill-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .pill{
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    padding:7px 13px;
+    border-radius:20px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink);
+  }
+
+  /* projects */
+  .project-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  @media (max-width:900px){
+    .project-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){
+    .project-grid{grid-template-columns:1fr;}
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:var(--accent);
+    box-shadow:0 16px 32px -20px var(--glow);
+  }
+  .card-num{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color:var(--accent);
+  }
+  .card h3{
+    margin:0;
+    font-size:18px;
+    color:var(--ink);
+  }
+  .card p{
+    margin:0;
+    font-size:14px;
+    color:var(--muted);
+    flex-grow:1;
+  }
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .tag{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    padding:4px 9px;
+    border-radius:5px;
+  }
+  .card-link{
+    font-size:13.5px;
+    font-weight:600;
+    text-decoration:none;
+    color:var(--ink);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:4px;
+  }
+  .card-link:hover{color:var(--accent);}
+  .card-link.disabled{
+    color:var(--muted);
+    font-weight:500;
+    pointer-events:none;
+  }
+
+  /* experience */
+  .timeline{
+    list-style:none;
+    margin:0;
+    padding:0;
+    border-left:2px solid var(--line);
+  }
+  .timeline li{
+    position:relative;
+    padding:0 0 28px 28px;
+  }
+  .timeline li::before{
+    content:"";
+    position:absolute;
+    left:-7px;
+    top:4px;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--glow);
+    border:3px solid var(--bg);
+  }
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline .role{
+    font-weight:700;
+    font-size:16px;
+    color:var(--ink);
+  }
+  .timeline .meta{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color:var(--accent);
+    margin:3px 0 8px;
+  }
+  .timeline p{
+    margin:0;
+    font-size:14.5px;
+    color:var(--muted);
+    max-width:56ch;
+  }
+
+  /* contact */
+  .contact-box{
+    background:linear-gradient(160deg, var(--surface-2), var(--surface));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:56px 40px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .contact-box::before{
+    content:"";
+    position:absolute;
+    top:-120px; left:50%;
+    transform:translateX(-50%);
+    width:520px; height:300px;
+    background:radial-gradient(circle, var(--glow), transparent 70%);
+    opacity:0.35;
+  }
+  .contact-box h2{
+    color:var(--ink);
+    font-size:30px;
+    position:relative;
+  }
+  .contact-box p{
+    color:var(--muted);
+    max-width:44ch;
+    margin:10px auto 30px;
+    position:relative;
+  }
+  .contact-links{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    position:relative;
+  }
+
+  footer{
+    padding:28px 0 40px;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--muted);
+    font-family:'Space Mono', monospace;
+    position:relative;
+    z-index:1;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">
+      <div class="hexmark" aria-hidden="true">
+        <span class="on"></span><span></span>
+        <span></span><span class="on"></span>
+        <span class="on"></span><span></span>
+      </div>
+      <span class="nav-logo">jair<span>.</span>dev</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary" style="padding:9px 18px; font-size:13px;">Get in touch</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" style="border-top:none;">
+      <div>
+        <div class="eyebrow">MBO Software Development · Firda · Year 2</div>
+        <h1>Ja-ir Modiwirijo builds things <em>square by square.</em></h1>
+        <p class="lede">Software development student working across HTML, CSS, JavaScript, Python, and Laravel. Methodical by habit — the same way I approach a chessboard or a speedcube — and currently turning that into working code.</p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn btn-primary">View projects →</a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="photo-panel">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+          <span>Add your photo here</span>
+          <div class="photo-badge"><b>Year 2</b>MBO 4 · Firda</div>
+        </div>
+      </div>
+  </section>
+
+  <section style="border-top:none; padding-top:0; padding-bottom:56px;">
+    <div class="wrap">
+      <div class="feature-strip">
+        <div class="feature-item">
+          <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+          Full‑stack basics
+        </div>
+        <div class="feature-item">
+          <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></div>
+          Fast, reliable delivery
+        </div>
+        <div class="feature-item">
+          <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          Team &amp; solo projects
+        </div>
+        <div class="feature-item">
+          <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
+          Pattern‑first thinking
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="eyebrow">About</div>
+      <h2>From Suriname to the Netherlands, one project at a time</h2>
+      <p class="section-intro">A short background on where I come from and what keeps me sharp outside of code.</p>
+      <div class="about-grid">
+        <p>
+          I was born in Suriname and later moved to the Netherlands, where I'm now in my second year of the MBO 4 Software Development program at Firda. Alongside my studies, I work at Jumbo as a shelf stocker, which has taught me a lot about consistency, working under time pressure, and being reliable as part of a team — habits I bring straight into my code.
+          <br><br>
+          Outside of school and work, I play a lot of chess and speedcube — both games of pattern recognition and clean execution, which is honestly the same mindset I use when I'm debugging.
+        </p>
+        <ul class="fact-list">
+          <li><span class="label">Based in</span><span>The Netherlands</span></li>
+          <li><span class="label">Studying</span><span>MBO 4 Software Development, Firda — Year 2</span></li>
+          <li><span class="label">Working</span><span>Jumbo — Shelf Stocker (1+ year)</span></li>
+          <li><span class="label">Off-screen</span><span>Chess, speedcubing, gaming</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="eyebrow">Skills</div>
+      <h2>What I build with</h2>
+      <p class="section-intro">Still growing this list every semester — these are the tools I'm currently comfortable working in.</p>
+      <div class="skill-groups">
+        <div class="skill-group">
+          <h3>Frontend</h3>
+          <div class="pill-row">
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+            <span class="pill">JavaScript</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Backend</h3>
+          <div class="pill-row">
+            <span class="pill">Python</span>
+            <span class="pill">PHP</span>
+            <span class="pill">Laravel</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Data</h3>
+          <div class="pill-row">
+            <span class="pill">MySQL</span>
+            <span class="pill">JSON</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="eyebrow">Projects</div>
+      <h2>A few things I've built</h2>
+      <p class="section-intro">School assignments and self-directed builds across the stack.</p>
+      <div class="project-grid">
+
+        <div class="card">
+          <div class="card-num">01</div>
+          <h3>GameCycle</h3>
+          <p>A webshop concept for buying second-hand video games, with a product catalogue, shopping cart with quantities and totals, and a full checkout flow.</p>
+          <div class="tag-row">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+          </div>
+          <a href="https://jairmodi.github.io/webshop/" target="_blank" rel="noopener" class="card-link">View live site →</a>
+        </div>
+
+        <div class="card">
+          <div class="card-num">02</div>
+          <h3>Weather Report</h3>
+          <p>A Python weather app that pulls current-day conditions for 12 specific cities and looks up past weather data, all read from a local JSON dataset.</p>
+          <div class="tag-row">
+            <span class="tag">Python</span>
+            <span class="tag">JSON</span>
+          </div>
+          <span class="card-link disabled">Code not published</span>
+        </div>
+
+        <div class="card">
+          <div class="card-num">03</div>
+          <h3>StageLink</h3>
+          <p>A group project platform where companies verify their account and post assignments for students to take on. I built the company-facing side: verification and assignment management.</p>
+          <div class="tag-row">
+            <span class="tag">Laravel</span>
+            <span class="tag">PHP</span>
+            <span class="tag">MySQL</span>
+          </div>
+          <span class="card-link disabled">Group project — private repo</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="eyebrow">Experience</div>
+      <h2>Where I've worked</h2>
+      <ul class="timeline">
+        <li>
+          <div class="role">Shelf Stocker</div>
+          <div class="meta mono">JUMBO · 1+ YEAR — PRESENT</div>
+          <p>Restocking and organizing shelves in a fast-paced retail environment while balancing studies, building reliability and time-management skills that carry over into project work.</p>
+        </li>
+        <li>
+          <div class="role">Software Development Student</div>
+          <div class="meta mono">FIRDA · MBO 4 — YEAR 2</div>
+          <p>Studying software development with hands-on coursework in web development, Python, and Laravel, including a group project building a platform for company-student assignments.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" style="border-top:none;">
+    <div class="wrap">
+      <div class="contact-box">
+        <h2>Let's talk</h2>
+        <p>Open to internships, junior roles, and anything that lets me keep building. Reach out — I'll get back to you.</p>
+        <div class="contact-links">
+          <a href="mailto:modisaudi98@gmail.com" class="btn btn-primary">modisaudi98@gmail.com</a>
+          <a href="https://github.com/JairModi" target="_blank" rel="noopener" class="btn btn-ghost">GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>© 2026 Ja-ir Modiwirijo</footer>
+
+</body>
+</html>
