@@ -29,7 +29,7 @@
   html{scroll-behavior:smooth;}
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
   }
 
   body{
@@ -57,6 +57,11 @@
     opacity:1;
     pointer-events:none;
     z-index:0;
+    animation:gridDrift 26s linear infinite;
+  }
+  @keyframes gridDrift{
+    0%{background-position:0 0, 0 0;}
+    100%{background-position:56px 56px, -56px 56px;}
   }
   body::after{
     content:"";
@@ -71,6 +76,11 @@
     filter:blur(10px);
     pointer-events:none;
     z-index:0;
+    animation:glowPulse 7s ease-in-out infinite;
+  }
+  @keyframes glowPulse{
+    0%,100%{opacity:0.22; transform:translateX(-50%) scale(1);}
+    50%{opacity:0.34; transform:translateX(-50%) scale(1.06);}
   }
 
   a{color:inherit;}
@@ -104,6 +114,11 @@
     background:var(--accent);
     display:inline-block;
     box-shadow:0 0 8px var(--glow);
+    animation:eyebrowExtend 0.6s ease-out both;
+  }
+  @keyframes eyebrowExtend{
+    from{width:0; opacity:0;}
+    to{width:18px; opacity:1;}
   }
 
   :focus-visible{
@@ -125,17 +140,24 @@
     height:9px;
     border-radius:2px;
     background:var(--line);
+    transition:background 0.2s ease, box-shadow 0.2s ease;
   }
   .hexmark span.on{
     background:var(--accent);
     box-shadow:0 0 9px var(--glow);
+    animation:hexBlink 3.2s ease-in-out infinite;
   }
-  .hexmark span:nth-child(1){top:0; left:0;}
+  .hexmark span:nth-child(1){top:0; left:0; animation-delay:0s;}
   .hexmark span:nth-child(2){top:0; left:12px;}
   .hexmark span:nth-child(3){top:12px; left:6px;}
-  .hexmark span:nth-child(4){top:12px; left:18px;}
-  .hexmark span:nth-child(5){top:24px; left:0;}
+  .hexmark span:nth-child(4){top:12px; left:18px; animation-delay:1.1s;}
+  .hexmark span:nth-child(5){top:24px; left:0; animation-delay:2.2s;}
   .hexmark span:nth-child(6){top:24px; left:12px;}
+  @keyframes hexBlink{
+    0%,100%{opacity:1;}
+    50%{opacity:0.35;}
+  }
+  .nav-brand:hover .hexmark span{transform:scale(1.15);}
 
   /* ---------- nav ---------- */
   header.nav{
@@ -145,6 +167,11 @@
     background:rgba(247,249,252,0.82);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
+    animation:navDrop 0.5s cubic-bezier(.16,.9,.35,1) both;
+  }
+  @keyframes navDrop{
+    from{transform:translateY(-100%); opacity:0;}
+    to{transform:translateY(0); opacity:1;}
   }
   .nav-inner{
     max-width:var(--max);
@@ -182,11 +209,46 @@
     color:var(--muted);
     transition:color 0.15s ease;
     position:relative;
+    padding-bottom:2px;
+  }
+  .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:-2px;
+    width:0%;
+    height:2px;
+    background:linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius:2px;
+    transition:width 0.25s ease;
   }
   .nav-links a:hover{color:var(--ink);}
+  .nav-links a:hover::after{width:100%;}
   @media (max-width:680px){
     .nav-links{display:none;}
   }
+
+  /* ---------- reveal-on-scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.7s cubic-bezier(.16,.8,.3,1), transform 0.7s cubic-bezier(.16,.8,.3,1);
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .reveal-stagger > *{
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 0.6s cubic-bezier(.16,.8,.3,1), transform 0.6s cubic-bezier(.16,.8,.3,1);
+  }
+  .reveal-stagger.in > *{opacity:1; transform:translateY(0);}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:0.02s;}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:0.10s;}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:0.18s;}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:0.26s;}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:0.34s;}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:0.42s;}
 
   /* ---------- hero ---------- */
   .hero{
@@ -202,6 +264,19 @@
     .hero{grid-template-columns:1fr; padding:52px 24px 40px;}
   }
 
+  .hero-copy > *{
+    opacity:0;
+    transform:translateY(18px);
+    animation:heroIn 0.75s cubic-bezier(.16,.8,.3,1) forwards;
+  }
+  .hero-copy .eyebrow{animation-delay:0.05s;}
+  .hero-copy h1{animation-delay:0.16s;}
+  .hero-copy p.lede{animation-delay:0.28s;}
+  .hero-copy .hero-ctas{animation-delay:0.40s;}
+  @keyframes heroIn{
+    to{opacity:1; transform:translateY(0);}
+  }
+
   .hero h1{
     font-family:'Sora', sans-serif;
     font-weight:800;
@@ -213,10 +288,15 @@
   }
   .hero h1 em{
     font-style:normal;
-    background:linear-gradient(90deg, var(--accent), var(--accent-2));
+    background:linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent));
+    background-size:200% auto;
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
+    animation:shine 5s linear infinite;
+  }
+  @keyframes shine{
+    to{background-position:200% center;}
   }
   .hero p.lede{
     font-size:16.5px;
@@ -240,25 +320,42 @@
     text-decoration:none;
     border:1px solid transparent;
     transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    position:relative;
+    overflow:hidden;
   }
+  .btn::before{
+    content:"";
+    position:absolute;
+    top:0; left:-60%;
+    width:40%; height:100%;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform:skewX(-20deg);
+    transition:left 0.55s ease;
+  }
+  .btn:hover::before{left:130%;}
   .btn-primary{
     background:linear-gradient(135deg, var(--accent), var(--accent-2));
     color:#04121F;
     box-shadow:0 8px 24px -10px var(--glow);
   }
-  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 10px 28px -8px var(--glow);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 30px -8px var(--glow);}
+  .btn-primary:active{transform:translateY(0px) scale(0.98);}
   .btn-ghost{
     border-color:var(--line);
     color:var(--ink);
     background:var(--surface);
   }
-  .btn-ghost:hover{border-color:var(--accent); transform:translateY(-1px);}
+  .btn-ghost:hover{border-color:var(--accent); transform:translateY(-2px); box-shadow:0 10px 22px -14px var(--glow);}
+  .btn-ghost:active{transform:translateY(0px) scale(0.98);}
 
   /* photo panel — angled cut corner like reference */
   .hero-visual{
     position:relative;
     display:flex;
     justify-content:center;
+    opacity:0;
+    transform:translateY(18px) scale(0.97);
+    animation:heroIn 0.8s cubic-bezier(.16,.8,.3,1) 0.30s forwards;
   }
   .photo-panel{
     width:100%;
@@ -279,8 +376,17 @@
     font-size:12.5px;
     text-align:center;
     position:relative;
+    animation:floaty 5s ease-in-out infinite;
   }
-  .photo-panel svg{opacity:0.55; color:var(--accent);}
+  @keyframes floaty{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+  .photo-panel svg{opacity:0.55; color:var(--accent); animation:pulseIcon 3s ease-in-out infinite;}
+  @keyframes pulseIcon{
+    0%,100%{opacity:0.4; transform:scale(1);}
+    50%{opacity:0.75; transform:scale(1.08);}
+  }
   .photo-badge{
     position:absolute;
     bottom:-18px;
@@ -293,6 +399,11 @@
     font-size:12px;
     color:var(--ink);
     box-shadow:0 10px 30px -12px var(--glow);
+    animation:badgeIn 0.6s cubic-bezier(.16,.8,.3,1) 0.75s both;
+  }
+  @keyframes badgeIn{
+    from{opacity:0; transform:translate(10px, 10px) scale(0.9);}
+    to{opacity:1; transform:translate(0,0) scale(1);}
   }
   .photo-badge b{color:var(--accent); display:block; font-size:13px;}
   @media (max-width:840px){
@@ -338,6 +449,12 @@
     padding:14px 16px;
     font-size:13.5px;
     font-weight:500;
+    transition:transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .feature-item:hover{
+    transform:translateY(-3px);
+    border-color:var(--accent);
+    box-shadow:0 12px 24px -16px var(--glow);
   }
   .feature-item .ico{
     width:32px; height:32px;
@@ -346,6 +463,12 @@
     color:var(--accent);
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
+    transition:transform 0.25s cubic-bezier(.34,1.56,.64,1), background 0.2s ease;
+  }
+  .feature-item:hover .ico{
+    transform:rotate(-8deg) scale(1.1);
+    background:var(--accent);
+    color:#fff;
   }
 
   /* about */
@@ -378,7 +501,9 @@
     font-size:14px;
     padding:16px 18px;
     border-bottom:1px solid var(--line);
+    transition:background 0.2s ease, padding-left 0.2s ease;
   }
+  .fact-list li:hover{background:var(--surface-2); padding-left:22px;}
   .fact-list li:last-child{border-bottom:none;}
   .fact-list .label{
     font-family:'Space Mono', monospace;
@@ -404,6 +529,12 @@
     border:1px solid var(--line);
     border-radius:var(--radius);
     padding:22px;
+    transition:transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .skill-group:hover{
+    transform:translateY(-4px);
+    border-color:var(--accent);
+    box-shadow:0 16px 30px -20px var(--glow);
   }
   .skill-group h3{
     font-family:'Space Mono', monospace;
@@ -426,6 +557,13 @@
     font-size:13.5px;
     font-weight:500;
     color:var(--ink);
+    transition:transform 0.2s cubic-bezier(.34,1.56,.64,1), background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .pill:hover{
+    transform:translateY(-2px) scale(1.05);
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
   }
 
   /* projects */
@@ -448,12 +586,12 @@
     display:flex;
     flex-direction:column;
     gap:14px;
-    transition:transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    transition:transform 0.25s cubic-bezier(.16,.8,.3,1), box-shadow 0.25s ease, border-color 0.25s ease;
   }
   .card:hover{
-    transform:translateY(-3px);
+    transform:translateY(-6px);
     border-color:var(--accent);
-    box-shadow:0 16px 32px -20px var(--glow);
+    box-shadow:0 20px 36px -20px var(--glow);
   }
   .card-num{
     font-family:'Space Mono', monospace;
@@ -483,7 +621,9 @@
     color:var(--accent);
     padding:4px 9px;
     border-radius:5px;
+    transition:transform 0.15s ease;
   }
+  .card:hover .tag{transform:translateY(-1px);}
   .card-link{
     font-size:13.5px;
     font-weight:600;
@@ -493,8 +633,9 @@
     align-items:center;
     gap:6px;
     margin-top:4px;
+    transition:gap 0.2s ease, color 0.2s ease;
   }
-  .card-link:hover{color:var(--accent);}
+  .card-link:hover{color:var(--accent); gap:10px;}
   .card-link.disabled{
     color:var(--muted);
     font-weight:500;
@@ -523,6 +664,11 @@
     background:var(--accent);
     box-shadow:0 0 10px var(--glow);
     border:3px solid var(--bg);
+    animation:dotPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse{
+    0%,100%{box-shadow:0 0 10px var(--glow);}
+    50%{box-shadow:0 0 18px 4px var(--glow);}
   }
   .timeline li:last-child{padding-bottom:0;}
   .timeline .role{
@@ -561,6 +707,7 @@
     width:520px; height:300px;
     background:radial-gradient(circle, var(--glow), transparent 70%);
     opacity:0.35;
+    animation:glowPulse 6s ease-in-out infinite;
   }
   .contact-box h2{
     color:var(--ink);
@@ -621,7 +768,7 @@
 <main id="top">
 
   <section class="hero" style="border-top:none;">
-      <div>
+      <div class="hero-copy">
         <div class="eyebrow">MBO Software Development · Firda · Year 2</div>
         <h1>Ja-ir Modiwirijo builds things <em>square by square.</em></h1>
         <p class="lede">Software development student working across HTML, CSS, JavaScript, Python, and Laravel. Methodical by habit — the same way I approach a chessboard or a speedcube — and currently turning that into working code.</p>
@@ -641,7 +788,7 @@
 
   <section style="border-top:none; padding-top:0; padding-bottom:56px;">
     <div class="wrap">
-      <div class="feature-strip">
+      <div class="feature-strip reveal-stagger">
         <div class="feature-item">
           <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
           Full‑stack basics
@@ -664,10 +811,10 @@
 
   <section id="about">
     <div class="wrap">
-      <div class="eyebrow">About</div>
-      <h2>From Suriname to the Netherlands, one project at a time</h2>
-      <p class="section-intro">A short background on where I come from and what keeps me sharp outside of code.</p>
-      <div class="about-grid">
+      <div class="eyebrow reveal">About</div>
+      <h2 class="reveal">From Suriname to the Netherlands, one project at a time</h2>
+      <p class="section-intro reveal">A short background on where I come from and what keeps me sharp outside of code.</p>
+      <div class="about-grid reveal">
         <p>
           I was born in Suriname and later moved to the Netherlands, where I'm now in my second year of the MBO 4 Software Development program at Firda. Alongside my studies, I work at Jumbo as a shelf stocker, which has taught me a lot about consistency, working under time pressure, and being reliable as part of a team — habits I bring straight into my code.
           <br><br>
@@ -685,10 +832,10 @@
 
   <section id="skills">
     <div class="wrap">
-      <div class="eyebrow">Skills</div>
-      <h2>What I build with</h2>
-      <p class="section-intro">Still growing this list every semester — these are the tools I'm currently comfortable working in.</p>
-      <div class="skill-groups">
+      <div class="eyebrow reveal">Skills</div>
+      <h2 class="reveal">What I build with</h2>
+      <p class="section-intro reveal">Still growing this list every semester — these are the tools I'm currently comfortable working in.</p>
+      <div class="skill-groups reveal-stagger">
         <div class="skill-group">
           <h3>Frontend</h3>
           <div class="pill-row">
@@ -718,10 +865,10 @@
 
   <section id="projects">
     <div class="wrap">
-      <div class="eyebrow">Projects</div>
-      <h2>A few things I've built</h2>
-      <p class="section-intro">School assignments and self-directed builds across the stack.</p>
-      <div class="project-grid">
+      <div class="eyebrow reveal">Projects</div>
+      <h2 class="reveal">A few things I've built</h2>
+      <p class="section-intro reveal">School assignments and self-directed builds across the stack.</p>
+      <div class="project-grid reveal-stagger">
 
         <div class="card">
           <div class="card-num">01</div>
@@ -764,9 +911,9 @@
 
   <section id="experience">
     <div class="wrap">
-      <div class="eyebrow">Experience</div>
-      <h2>Where I've worked</h2>
-      <ul class="timeline">
+      <div class="eyebrow reveal">Experience</div>
+      <h2 class="reveal">Where I've worked</h2>
+      <ul class="timeline reveal-stagger">
         <li>
           <div class="role">Shelf Stocker</div>
           <div class="meta mono">JUMBO · 1+ YEAR — PRESENT</div>
@@ -783,7 +930,7 @@
 
   <section id="contact" style="border-top:none;">
     <div class="wrap">
-      <div class="contact-box">
+      <div class="contact-box reveal">
         <h2>Let's talk</h2>
         <p>Open to internships, junior roles, and anything that lets me keep building. Reach out — I'll get back to you.</p>
         <div class="contact-links">
@@ -797,6 +944,26 @@
 </main>
 
 <footer>© 2026 Ja-ir Modiwirijo</footer>
+
+<script>
+  // Scroll-reveal via IntersectionObserver
+  (function(){
+    var targets = document.querySelectorAll('.reveal, .reveal-stagger');
+    if(!('IntersectionObserver' in window)){
+      targets.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    targets.forEach(function(el){ io.observe(el); });
+  })();
+</script>
 
 </body>
 </html>
