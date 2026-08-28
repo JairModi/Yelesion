@@ -64,9 +64,7 @@ function PortfolioPage() {
       <SiteNav portfolio />
       <section className="portfolio-hero">
         <div>
-          <p className="eyebrow">
-            The Yelesion collective <span>•</span> 04 / Our work
-          </p>
+        
           <h1>
             A team of
             <br />
@@ -79,10 +77,8 @@ function PortfolioPage() {
         </p>
       </section>
       <section className="portfolio-list" id="portfolio-list">
-        <div className="section-heading">
-          <p className="section-index">01 / The people behind the work</p>
-          <p className="side-note">Links coming soon</p>
-        </div>
+      
+        
         <div className="portfolio-buttons">
           <a className="portfolio-button" href="/Lucasportfolio.html">
             Portfolio Lucas <span>↗</span>
