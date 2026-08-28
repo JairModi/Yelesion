@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dinand Koek — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap%22 rel="stylesheet">
+<style>
+  :root{
+    --blue:#1B3FE0;
+    --blue-deep:#0C1F80;
+    --ink:#111114;
+    --paper:#FFFFFF;
+    --paper-tint:#F3F6FF;
+    --line:#CBD7F6;
+    --line-soft:#E4EAFB;
+  }
+ 
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+ 
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+ 
+  h1,h2,h3,.display{
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+ 
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  ::selection{background:var(--blue); color:var(--paper);}
+  :focus-visible{outline:2px solid var(--blue); outline-offset:3px; border-radius:2px;}
+ 
+  .wrap{max-width:1100px; margin:0 auto; padding:0 28px;}
+ 
+  .editable{
+    background:linear-gradient(transparent 72%, var(--line-soft) 72%);
+    padding:0 1px;
+  }
+ 
+  /* ---------- NAV ---------- */
+  header{
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:50;
+  }
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; height:66px;}
+  .logo{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+    color:var(--ink);
+  }
+  .logo b{color:var(--blue);}
+  nav ul{
+    display:flex; gap:30px; list-style:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  nav ul a{
+    text-decoration:none; color:var(--ink);
+    padding-bottom:4px;
+    border-bottom:2px solid transparent;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  nav ul a:hover{border-color:var(--blue); color:var(--blue);}
+ 
+  /* ---------- HERO (blueprint sheet) ---------- */
+  .hero{
+    position:relative;
+    background-color:var(--blue-deep);
+    background-image:
+      linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px);
+    background-size:34px 34px;
+    padding:64px 0 76px;
+    overflow:hidden;
+  }
+  .crosshair{
+    position:absolute;
+    width:22px; height:22px;
+    opacity:0.55;
+  }
+  .crosshair::before, .crosshair::after{
+    content:""; position:absolute; background:#fff;
+  }
+  .crosshair::before{width:100%; height:1px; top:50%; left:0;}
+  .crosshair::after{height:100%; width:1px; left:50%; top:0;}
+  .crosshair.tl{top:18px; left:18px;}
+  .crosshair.tr{top:18px; right:18px;}
+  .crosshair.bl{bottom:18px; left:18px;}
+  .crosshair.br{bottom:18px; right:18px;}
+ 
+  .hero-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:#B9C6F7;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:26px;
+  }
+  .hero-label .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:#7FE0A8;
+    box-shadow:0 0 0 4px rgba(127,224,168,0.25);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{ 50%{opacity:0.35;} }
+  @media (prefers-reduced-motion:reduce){ .hero-label .dot{animation:none;} }
+ 
+  .hero h1{
+    color:#fff;
+    font-size:clamp(2.3rem, 5.4vw, 4rem);
+    line-height:1.06;
+    max-width:16ch;
+    margin-bottom:32px;
+  }
+  .hero h1 .accent{color:#8FA8EA;}
+ 
+  .spec-sheet{
+    background:var(--paper);
+    border-radius:4px;
+    max-width:560px;
+    box-shadow:0 30px 60px -24px rgba(6,12,50,0.55);
+  }
+  .spec-sheet .spec-head{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--blue);
+    padding:10px 18px;
+  }
+  .spec-row{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    font-size:0.86rem;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    color:var(--blue);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding:13px 14px;
+    border-right:1px solid var(--line-soft);
+  }
+  .spec-row .v{padding:13px 16px; color:var(--ink);}
+ 
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:30px;}
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding:13px 20px;
+    text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid rgba(255,255,255,0.4);
+    color:#fff;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px); border-color:#fff;}
+  .btn-primary{background:#fff; color:var(--blue-deep); border-color:#fff;}
+  .btn-primary:hover{background:#8FA8EA; color:#fff;}
+ 
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:80px 0; position:relative;}
+  section.tint{
+    background-color:var(--paper-tint);
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:34px 34px;
+  }
+  .section-head{display:flex; align-items:center; gap:14px; margin-bottom:44px;}
+  .section-head .fig{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:var(--blue);
+    letter-spacing:0.08em;
+    white-space:nowrap;
+  }
+  .section-head h2{font-size:1.5rem;}
+  .section-head .rule{flex:1; height:1px; background:var(--line);}
+ 
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:block;}
+  .frame{
+    position:relative;
+    aspect-ratio:4/5;
+    border:1px solid var(--line);
+  }
+  .frame-inner{
+    position:absolute; inset:14px;
+    border:1px dashed var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; color:#8792A6; text-align:center; padding:16px;
+  }
+  .frame .corner{position:absolute; width:16px; height:16px; border:2px solid var(--blue);}
+  .frame .corner.tl{top:-1px; left:-1px; border-right:none; border-bottom:none;}
+  .frame .corner.tr{top:-1px; right:-1px; border-left:none; border-bottom:none;}
+  .frame .corner.bl{bottom:-1px; left:-1px; border-right:none; border-top:none;}
+  .frame .corner.br{bottom:-1px; right:-1px; border-left:none; border-top:none;}
+ 
+  .about-text p{color:#3B3F4C; font-size:0.94rem; margin-bottom:16px;}
+  .spec-table{margin-top:24px; border:1px solid var(--line);}
+  .spec-table .row{display:grid; grid-template-columns:150px 1fr; border-bottom:1px solid var(--line);}
+  .spec-table .row:last-child{border-bottom:none;}
+  .spec-table .row .k{
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--blue);
+    padding:12px 14px; border-right:1px solid var(--line); background:var(--paper-tint);
+  }
+  .spec-table .row .v{padding:12px 14px; font-size:0.86rem;}
+ 
+  /* ---------- SKILLS ---------- */
+  .skills-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .skill-card{background:var(--paper); border:1px solid var(--line);}
+  .skill-card .label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem;
+    text-transform:uppercase; letter-spacing:0.08em; color:#fff;
+    background:var(--ink); padding:10px 14px;
+  }
+  .tag-list{display:flex; flex-wrap:wrap; gap:8px; padding:18px;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:0.74rem;
+    padding:6px 10px; border:1px solid var(--line); color:var(--ink);
+  }
+ 
+  /* ---------- PROJECTS ---------- */
+  .project-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:24px;}
+  .project-card{border:1px solid var(--line); background:var(--paper); transition:transform .15s ease, box-shadow .15s ease;}
+  .project-card:hover{transform:translateY(-4px); box-shadow:0 24px 40px -24px rgba(17,17,20,0.3);}
+  .project-top{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 14px; border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--blue);
+  }
+  .project-thumb{
+    position:relative;
+    height:140px;
+    background-color:var(--paper-tint);
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:18px 18px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:#8792A6;
+    border-bottom:1px solid var(--line);
+    text-align:center;
+    padding:12px;
+  }
+  .project-body{padding:20px 20px 22px;}
+  .project-body h3{font-size:1rem; margin-bottom:8px;}
+  .project-body p{color:#3B3F4C; font-size:0.86rem; margin-bottom:14px;}
+  .project-tags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;}
+  .project-tags .tag{font-size:0.68rem; padding:4px 8px;}
+  .project-links{display:flex; gap:16px; font-family:'IBM Plex Mono', monospace; font-size:0.76rem;}
+  .project-links a{text-decoration:none; color:var(--blue); border-bottom:1px solid transparent;}
+  .project-links a:hover{border-color:var(--blue);}
+ 
+  /* ---------- EDUCATION (ruler timeline) ---------- */
+  .ruler{position:relative; padding-left:36px;}
+  .ruler::before{content:""; position:absolute; left:6px; top:0; bottom:0; width:1px; background:var(--line);}
+  .ruler-item{position:relative; padding-bottom:38px;}
+  .ruler-item:last-child{padding-bottom:0;}
+  .ruler-item::before{
+    content:""; position:absolute; left:-36px; top:5px;
+    width:13px; height:1px; background:var(--blue);
+  }
+  .ruler-item::after{
+    content:""; position:absolute; left:0.5px; top:1px;
+    width:9px; height:9px; border:2px solid var(--blue); background:var(--paper); border-radius:50%;
+  }
+  .ruler-item .period{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--blue); margin-bottom:5px;}
+  .ruler-item h3{font-size:1rem; margin-bottom:4px;}
+  .ruler-item p{color:#3B3F4C; font-size:0.86rem;}
+ 
+  /* ---------- CONTACT (title block) ---------- */
+  .titleblock{border:1px solid var(--ink);}
+  .titleblock-top{
+    display:grid; grid-template-columns:1.3fr 1fr;
+  }
+  .titleblock-lead{
+    padding:40px; border-right:1px solid var(--ink);
+    background:var(--blue-deep); color:#fff;
+  }
+  .titleblock-lead h2{color:#fff; font-size:1.5rem; margin-bottom:12px;}
+  .titleblock-lead p{color:#B9C6F7; font-size:0.9rem; max-width:38ch;}
+  .titleblock-links{display:flex; flex-direction:column;}
+  .titleblock-links a{
+    text-decoration:none; padding:16px 22px;
+    border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.88rem;
+    transition:background .15s ease, color .15s ease;
+  }
+  .titleblock-links a:last-child{border-bottom:none;}
+  .titleblock-links a:hover{background:var(--paper-tint); color:var(--blue);}
+  .titleblock-links a span.k{
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--blue);
+  }
+  .titleblock-meta{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--ink);
+  }
+  .titleblock-meta div{
+    padding:12px 16px; border-right:1px solid var(--ink);
+    font-family:'IBM Plex Mono', monospace; font-size:0.68rem;
+    text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .titleblock-meta div:last-child{border-right:none;}
+  .titleblock-meta div span{display:block; margin-top:4px; color:var(--blue); text-transform:none; font-size:0.78rem; letter-spacing:0;}
+ 
+  footer{
+    padding:26px 0; text-align:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem;
+    letter-spacing:0.06em; text-transform:uppercase; color:#8792A6;
+  }
+ 
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px){
+    nav ul{display:none;}
+    .about-grid{grid-template-columns:1fr;}
+    .frame{max-width:280px;}
+    .skills-grid{grid-template-columns:1fr 1fr;}
+    .project-grid{grid-template-columns:1fr;}
+    .titleblock-top{grid-template-columns:1fr;}
+    .titleblock-lead{border-right:none; border-bottom:1px solid var(--ink);}
+    .titleblock-meta{grid-template-columns:1fr 1fr;}
+    .titleblock-meta div:nth-child(2){border-right:none;}
+  }
+  @media (max-width: 520px){
+    .skills-grid{grid-template-columns:1fr;}
+    .spec-row{grid-template-columns:100px 1fr;}
+    .titleblock-meta{grid-template-columns:1fr;}
+    .titleblock-meta div{border-right:none; border-bottom:1px solid var(--ink);}
+    .titleblock-meta div:last-child{border-bottom:none;}
+  }
+</style>
+</head>
+<body>
+ 
+<header>
+  <nav class="wrap">
+    <div class="logo">DWG. <b>DINAND</b>—01</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+ 
+<section class="hero">
+  <div class="crosshair tl"></div>
+  <div class="crosshair tr"></div>
+  <div class="crosshair bl"></div>
+  <div class="crosshair br"></div>
+  <div class="wrap">
+    <div class="hero-label"><span class="dot"></span>status: in progress — open to internships</div>
+    <h1>Dinand builds software, <span class="accent">one step at a time.</span></h1>
+ 
+    <div class="spec-sheet">
+      <div class="spec-head">Specification Sheet — Developer</div>
+      <div class="spec-row"><div class="k">Name</div><div class="v">Dinand Koek</div></div>
+      <div class="spec-row"><div class="k">Age</div><div class="v">17</div></div>
+      <div class="spec-row"><div class="k">Study</div><div class="v">Software Development, Firda</div></div>
+      <div class="spec-row"><div class="k">Focus</div><div class="v">Front-end (learning back-end development)</div></div>
+      <div class="spec-row"><div class="k">Location</div><div class="v">Leeuwarden, Netherlands</div></div>
+    </div>
+ 
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#projects">View projects</a>
+      <a class="btn" href="https://github.com/dinandhahahahaha" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</section>
+ 
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="fig mono">FIG. 01</span>
+      <h2>About me</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm Dinand, a 17-year-old software development student in my second year at Firda. I'm confident with front-end development and still growing my back-end skills. I like learning by building real websites for real clients.</p>
+        <p>Before Firda, I spent four years at Zamenhof (MBO level), where I also completed a one-year ICT programme. That's where my interest in software really started.</p>
+        <div class="spec-table">
+          <div class="row"><div class="k">Education</div><div class="v">Software Development, Firda (MBO)</div></div>
+          <div class="row"><div class="k">Previous school</div><div class="v">Zamenhof — 4 years, MBO level, incl. 1 year ICT</div></div>
+          <div class="row"><div class="k">Language</div><div class="v editable">[Languages you speak]</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="skills" class="tint">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="fig mono">FIG. 02</span>
+      <h2>Skills</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="label mono">Languages</div>
+        <div class="tag-list">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="label mono">Frameworks</div>
+        <div class="tag-list">
+          <span class="tag editable">[Framework]</span>
+          <span class="tag editable">[Framework]</span>
+          <span class="tag editable">[...]</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="label mono">Tools</div>
+        <div class="tag-list">
+          <span class="tag editable">[Git]</span>
+          <span class="tag editable">[VS Code]</span>
+          <span class="tag editable">[...]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="fig mono">FIG. 03</span>
+      <h2>Projects</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="project-grid">
+ 
+      <div class="project-card">
+        <div class="project-top"><span>Spec-01</span><span editable class="editable">[Status]</span></div>
+        <div class="project-thumb">[screenshot / preview]</div>
+        <div class="project-body">
+          <h3>Popkoorsjing4you</h3>
+          <p>A company that organises pop choir singing sessions for older adults. <span class="editable">[Describe your role and what you built — e.g. website, features, tech used.]</span></p>
+          <div class="project-tags">
+            <span class="tag editable">[Tech]</span>
+            <span class="tag editable">[Tech]</span>
+          </div>
+          <div class="project-links">
+            <a href="[link-live-demo]">Live demo →</a>
+            <a href="[link-github]">Code →</a>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="project-card">
+        <div class="project-top"><span>Spec-02</span><span editable class="editable">[Status]</span></div>
+        <div class="project-thumb">[screenshot / preview]</div>
+        <div class="project-body">
+          <h3>Tsakani Holidays</h3>
+          <p>A company that organises safari holidays. <span class="editable">[Describe your role and what you built — e.g. website, features, tech used.]</span></p>
+          <div class="project-tags">
+            <span class="tag editable">[Tech]</span>
+            <span class="tag editable">[Tech]</span>
+          </div>
+          <div class="project-links">
+            <a href="[link-live-demo]">Live demo →</a>
+            <a href="[link-github]">Code →</a>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</section>
+ 
+<section id="education" class="tint">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="fig mono">FIG. 04</span>
+      <h2>Education</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="ruler">
+      <div class="ruler-item">
+        <div class="period editable">[Year – Present]</div>
+        <h3>Software Development, Firda</h3>
+        <p>Currently in my 2nd year at MBO level. Strong in front-end development and actively building my back-end skills.</p>
+      </div>
+      <div class="ruler-item">
+        <div class="period editable">[Year – Year]</div>
+        <h3>Zamenhof</h3>
+        <p>Four years of vocational education at MBO level.</p>
+      </div>
+      <div class="ruler-item">
+        <div class="period editable">[Year]</div>
+        <h3>ICT, Zamenhof</h3>
+        <p>A one-year ICT programme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="contact">
+  <div class="wrap">
+    <div class="titleblock">
+      <div class="titleblock-top">
+        <div class="titleblock-lead">
+          <h2>Let's work together</h2>
+          <p>Open to internships and freelance projects — feel free to reach out about front-end work or anything web-related.</p>
+        </div>
+        <div class="titleblock-links">
+          <a href="https://outlook.office.com/mail/deeplink/compose?to=515885@student.firda.nl" target="_blank" rel="noopener"><span class="k mono">Email</span> 515885@student.firda.nl</a>
+          <a href="https://www.linkedin.com/in/dinand-koek-32a9a0431/" target="_blank" rel="noopener"><span class="k mono">LinkedIn</span> linkedin.com/in/dinand-koek</a>
+          <a href="https://github.com/dinandhahahahaha" target="_blank" rel="noopener"><span class="k mono">GitHub</span> github.com/dinandhahahahaha</a>
+        </div>
+      </div>
+      <div class="titleblock-meta">
+        <div>Project<span>Portfolio</span></div>
+        <div>Drawn by<span>Dinand Koek</span></div>
+        <div>Sheet<span>1/1</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<footer>Rev. 01 · © Dinand Koek</footer>
+ 
+</body>
+</html>
+ 
+ 
+ 
