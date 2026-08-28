@@ -271,6 +271,61 @@
     background:#FFFFFF;
   }
   .commit:last-child{ padding-bottom:26px; grid-column:1/-1; }
+  .commit.featured{
+    grid-column:1/-1;
+    padding:0;
+    overflow:hidden;
+    background:#FFFFFF;
+    color:var(--ink);
+    border-color:var(--line);
+  }
+  .safari-preview{
+    min-height:510px;
+    padding:22px 4.8vw 34px;
+    position:relative;
+    isolation:isolate;
+    background:linear-gradient(180deg,rgba(30,17,10,.22),rgba(20,12,8,.82)),url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1800&q=85') center/cover;
+  }
+  .safari-preview::after{ content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(23,13,8,.75),transparent 70%),linear-gradient(0deg,rgba(19,11,7,.55),transparent 45%); }
+  .safari-nav{ align-items:center; display:flex; gap:28px; justify-content:space-between; }
+  .safari-brand{ align-items:center; display:flex; gap:12px; font-size:13px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+  .safari-brand-mark{ color:#D18A20; font-size:25px; line-height:1; }
+  .safari-menu{ display:flex; gap:23px; margin-left:auto; }
+  .safari-menu a{ color:rgba(248,240,223,.76); font-size:9px; letter-spacing:.13em; text-transform:uppercase; }
+  .safari-book{ background:#D18A20; color:#20140b; font-size:9px; font-weight:700; letter-spacing:.12em; padding:11px 16px; text-transform:uppercase; }
+  .safari-copy{ max-width:475px; padding-top:86px; }
+  .safari-kicker{ color:#D8A342; font-size:10px; letter-spacing:.31em; text-transform:uppercase; }
+  .safari-copy h3{ color:#F8F0DF; font-family:Georgia,serif; font-size:clamp(47px,7vw,86px); font-weight:400; letter-spacing:-.06em; line-height:.91; margin:23px 0 26px; }
+  .safari-copy h3 span{ color:#D8A342; display:block; }
+  .safari-copy p{ color:rgba(248,240,223,.77); font-size:13px; line-height:1.65; margin:0 0 24px; max-width:390px; }
+  .safari-actions{ align-items:center; display:flex; gap:12px; }
+  .safari-actions a{ border:1px solid rgba(248,240,223,.43); color:#F8F0DF; font-size:9px; letter-spacing:.15em; padding:11px 16px; text-transform:uppercase; }
+  .safari-actions a:first-child{ background:#D18A20; border-color:#D18A20; color:#20140b; }
+  .safari-detail{ display:flex; gap:16px; margin-top:36px; }
+  .safari-detail span{ border-left:1px solid rgba(216,163,66,.75); color:rgba(248,240,223,.65); font-size:9px; letter-spacing:.08em; padding-left:9px; text-transform:uppercase; }
+  .feature-info{ padding:24px 28px 27px; }
+  .feature-info .commit-meta{ color:var(--ink-soft); }
+  .feature-info h3{ color:var(--ink); margin-bottom:8px; }
+  .feature-info p{ color:var(--ink-soft); }
+  .feature-info .stack span{ background:var(--paper-dim); border-color:var(--line); color:var(--ink-soft); }
+  .choir-preview{
+    align-items:center;
+    aspect-ratio:16/9;
+    background:linear-gradient(135deg,#f7f7f7,#d9d9dc);
+    border:1px solid #c4c4c7;
+    display:flex;
+    justify-content:center;
+    margin-bottom:14px;
+    max-width:520px;
+    overflow:hidden;
+    position:relative;
+  }
+  .choir-preview::before,.choir-preview::after{ border:2px solid #99999d; border-radius:7px; content:""; height:55%; left:9%; position:absolute; transform:skewY(-1deg); width:82%; }
+  .choir-preview::before{ top:17%; }.choir-preview::after{ top:25%; }
+  .choir-logo{ color:#151518; font-size:clamp(19px,3vw,35px); line-height:.76; position:relative; text-align:center; z-index:1; }
+  .choir-logo small{ display:block; font-size:.38em; letter-spacing:.06em; margin-left:-18%; text-transform:lowercase; }
+  .choir-logo strong{ font-weight:500; }.choir-logo em{ color:#6A20B8; font-size:1.25em; font-style:italic; font-weight:700; }
+  .choir-logo b{ color:#6A20B8; display:inline-block; font-size:.42em; margin-left:-7px; transform:translateY(-.75em); }
   .commit::before{
     display:none;
   }
@@ -383,6 +438,14 @@
     .nav-links{ gap:14px; }
     .log{ grid-template-columns:1fr; }
     .commit:last-child{ grid-column:auto; }
+    .safari-preview{ min-height:590px; padding:20px 24px 30px; }
+    .safari-menu{ display:none; }
+    .safari-book{ margin-left:auto; padding:9px 11px; }
+    .safari-brand{ font-size:11px; letter-spacing:.13em; }
+    .safari-copy{ padding-top:86px; }
+    .safari-kicker{ line-height:1.6; }
+    .safari-copy h3{ font-size:clamp(46px,14vw,70px); }
+    .safari-detail{ flex-wrap:wrap; gap:10px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -456,24 +519,36 @@
 
     <div class="log">
 
-      <article class="commit">
-        <div class="commit-meta">
-          <span class="hash">#tsakani</span>
-          <span class="status live">live</span>
+      <article class="commit featured">
+        <div class="feature-info">
+          <div class="commit-meta"><span class="hash">#tsakani</span><span class="status live">live</span></div>
+          <h3>Tsakani Holidays</h3>
+          <p>A website built for a Kenya-based safari guide to showcase his tours and help travellers get in touch and book a trip.</p>
+          <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
         </div>
-        <h3>Tsakani Holidays</h3>
-        <div class="thumb">image coming soon</div>
-        <p>A website built for a Kenya-based safari guide to showcase his tours and help travellers get in touch and book a trip.</p>
-        <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+        <div class="safari-preview">
+          <div class="safari-nav">
+            <div class="safari-brand"><span class="safari-brand-mark">&#9733;</span> Tsakani Holidays</div>
+            <div class="safari-menu"><a href="#projects">Over ons</a><a href="#projects">Safaris</a><a href="#contact">Contact</a></div>
+            <a class="safari-book" href="#contact">Boek een safari</a>
+          </div>
+          <div class="safari-copy">
+            <div class="safari-kicker">Ontdek het echte Kenia met lokale experts</div>
+            <h3>Welkom bij<span>Tsakani Holidays</span></h3>
+            <p>Bij Tsakani Holidays geloven we dat reizen veel meer is dan alleen een bestemming bezoeken. Ontdek Kenia met een lokale gids, op jouw tempo.</p>
+            <div class="safari-actions"><a href="#contact">Onze safari's &#8594;</a><a href="#about">Over uw gids</a></div>
+            <div class="safari-detail"><span>Kenya</span><span>Local expertise</span><span>Since 2024</span></div>
+          </div>
+        </div>
       </article>
 
       <article class="commit">
         <div class="commit-meta">
-          <span class="hash">#popkoorsjing4you</span>
+          <span class="hash">#popkoorsing4you</span>
           <span class="status live">live</span>
         </div>
-        <h3>Popkoorsjing4you</h3>
-        <div class="thumb">image coming soon</div>
+        <h3>Popkoorsing4you</h3>
+        <div class="choir-preview"><div class="choir-logo"><small>popkoor heerenveen</small><strong>sing <em>4</em> you</strong><b>&#9835;</b></div></div>
         <p>A site for a pop choir mainly made up of older singers, designed to help them attract a younger audience and grow the group.</p>
         <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
       </article>
