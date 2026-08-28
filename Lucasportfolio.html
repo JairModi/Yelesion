@@ -280,13 +280,12 @@
     border-color:var(--line);
   }
   .safari-preview{
-    min-height:510px;
-    padding:22px 4.8vw 34px;
+    aspect-ratio:16/9;
+    margin:0 28px 26px;
+    overflow:hidden;
     position:relative;
-    isolation:isolate;
-    background:linear-gradient(180deg,rgba(30,17,10,.22),rgba(20,12,8,.82)),url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1800&q=85') center/cover;
   }
-  .safari-preview::after{ content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(23,13,8,.75),transparent 70%),linear-gradient(0deg,rgba(19,11,7,.55),transparent 45%); }
+  .safari-preview img{ display:block; height:100%; object-fit:cover; width:100%; }
   .safari-nav{ align-items:center; display:flex; gap:28px; justify-content:space-between; }
   .safari-brand{ align-items:center; display:flex; gap:12px; font-size:13px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
   .safari-brand-mark{ color:#D18A20; font-size:25px; line-height:1; }
@@ -438,7 +437,7 @@
     .nav-links{ gap:14px; }
     .log{ grid-template-columns:1fr; }
     .commit:last-child{ grid-column:auto; }
-    .safari-preview{ min-height:590px; padding:20px 24px 30px; }
+    .safari-preview{ margin-left:24px; margin-right:24px; }
     .safari-menu{ display:none; }
     .safari-book{ margin-left:auto; padding:9px 11px; }
     .safari-brand{ font-size:11px; letter-spacing:.13em; }
@@ -527,18 +526,7 @@
           <div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
         </div>
         <div class="safari-preview">
-          <div class="safari-nav">
-            <div class="safari-brand"><span class="safari-brand-mark">&#9733;</span> Tsakani Holidays</div>
-            <div class="safari-menu"><a href="#projects">Over ons</a><a href="#projects">Safaris</a><a href="#contact">Contact</a></div>
-            <a class="safari-book" href="#contact">Boek een safari</a>
-          </div>
-          <div class="safari-copy">
-            <div class="safari-kicker">Ontdek het echte Kenia met lokale experts</div>
-            <h3>Welkom bij<span>Tsakani Holidays</span></h3>
-            <p>Bij Tsakani Holidays geloven we dat reizen veel meer is dan alleen een bestemming bezoeken. Ontdek Kenia met een lokale gids, op jouw tempo.</p>
-            <div class="safari-actions"><a href="#contact">Onze safari's &#8594;</a><a href="#about">Over uw gids</a></div>
-            <div class="safari-detail"><span>Kenya</span><span>Local expertise</span><span>Since 2024</span></div>
-          </div>
+          <img src="/Tsakaniholidays.png" alt="Tsakani Holidays safari website">
         </div>
       </article>
 
