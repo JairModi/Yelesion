@@ -1,3 +1,10 @@
+<!--
+  Standalone personal portfolio page for Lucas, one of the Yelesion team
+  members. Self-contained (styles inlined in a <style> block below) and
+  served as a static file — not a React component. Linked to from the
+  team page at src/pages/PortfolioPage.jsx / src/App.jsx via
+  src/models/portfolioModel.js.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -257,6 +264,29 @@
   }
   .facts dl > *:nth-last-child(-n+2){ border-bottom:none; }
 
+  /* ORIGIN STORY */
+  .origin-story{
+    background:var(--accent-soft);
+    border:1px solid var(--line);
+    padding:32px 28px;
+    margin-top:48px;
+    border-radius:0;
+  }
+  .origin-story h3{
+    font-family:var(--serif);
+    font-size:24px;
+    margin:0 0 12px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .origin-story p{
+    color:var(--ink-soft);
+    margin:0;
+    font-size:15.5px;
+    line-height:1.6;
+    max-width:750px;
+  }
+
   /* PROJECTS as commit log */
   .log{
     display:grid;
@@ -507,6 +537,10 @@
           <dt>GitHub</dt><dd><a href="https://github.com/Lucasprocee1" target="_blank" rel="noopener">Lucasprocee1</a></dd>
         </dl>
       </div>
+    </div>
+    <div class="origin-story">
+      <h3>Why I started</h3>
+      <p>I've been drawn to computers since I was young — I was always naturally good at understanding how things work, which sparked my curiosity about programming and software development. That passion led me to pursue formal education in Software Development, and now I'm focused on building real applications that solve real problems.</p>
     </div>
   </section>
 

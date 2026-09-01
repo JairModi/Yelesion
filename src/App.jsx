@@ -1,14 +1,9 @@
-// Import React hooks that help manage state and element references
 import { useEffect, useRef, useState } from "react";
 // Import the CSS file that styles this component
 import "./App.css";
 
-// Create a component called "Reveal" that shows content when it scrolls into view
-// It accepts: children (content inside), className (custom styling), delay (animation timing), and id (unique name)
 function Reveal({ children, className = "", delay = 0, id }) {
-  // Create a state variable "visible" to track if the element is on screen (starts as false/not visible)
   const [visible, setVisible] = useState(false);
-  // Create a reference to the HTML element so we can watch when it appears on screen
   const revealRef = useRef(null);
 
   // This runs when the component appears or "delay" changes - it sets up the scroll watcher
@@ -17,7 +12,6 @@ function Reveal({ children, className = "", delay = 0, id }) {
     const element = revealRef.current;
     // If the element doesn't exist, stop and do nothing
     if (!element) return undefined;
-    // Create an "IntersectionObserver" - this watches when elements enter/leave the screen
     const observer = new IntersectionObserver(
       // This function runs when the element enters or leaves the screen
       ([entry]) => {
@@ -34,7 +28,6 @@ function Reveal({ children, className = "", delay = 0, id }) {
     );
     // Start watching the element
     observer.observe(element);
-    // Cleanup function: stop watching when this component is removed
     return () => observer.disconnect();
   }, [delay]);
 
@@ -57,7 +50,6 @@ function Reveal({ children, className = "", delay = 0, id }) {
   );
 }
 
-// Create a navigation bar component - portfolio is a setting to show different content
 function SiteNav({ portfolio = false }) {
   // Return the HTML for the navigation bar
   return (
@@ -93,7 +85,6 @@ function SiteNav({ portfolio = false }) {
   );
 }
 
-// Create the portfolio page that shows all team members' portfolios
 function PortfolioPage() {
   // Return the HTML for the portfolio page
   return (
@@ -152,14 +143,10 @@ function PortfolioPage() {
   );
 }
 
-// Create the main App component for the home page
 function App() {
-  // Create a state variable "email" to store what the user types in the email field
   const [email, setEmail] = useState("");
-  // Create a state variable "submitted" to track if the form was submitted
   const [submitted, setSubmitted] = useState(false);
 
-  // Function that runs when the user submits the email form
   function handleSubmit(event) {
     // Stop the page from reloading when the form is submitted
     event.preventDefault();
@@ -232,7 +219,6 @@ function App() {
           <p className="art-caption">Connect / Evolve / Advance</p>
         </div>
       </section>
-      {/* Reveal section #1 - shows info about the company's meaning when scrolled to */}
       <Reveal className="meaning" delay="1" id="meaning">
         {/* Section number and title */}
         <p className="section-index">01 / The idea behind Yelesion</p>
@@ -254,7 +240,6 @@ function App() {
           </p>
         </div>
       </Reveal>
-      {/* Reveal section #2 - shows contact form when scrolled to */}
       <Reveal className="contact" delay="2" id="contact">
         {/* Section number and title */}
         <p className="section-index">02 / Let’s move forward</p>
@@ -313,7 +298,6 @@ function App() {
   );
 }
 
-// Export the Root component as the default export - this is the main entry point for the app
 export default function Root() {
   // Check the current page URL to decide which component to show
   // If the URL is "/portfolio", show the portfolio page, otherwise show the home page
