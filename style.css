@@ -1,3 +1,9 @@
+/* NOTE: This stylesheet is leftover from an earlier plain HTML/CSS/JS
+   version of the site (paired with script.js and the older index.html
+   markup — see the merge-conflicted README.md). It is not linked from
+   the current Vite entry index.html and is currently unused. The
+   equivalent live styling is src/App.css, imported by src/App.jsx. */
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root { --ink:#111214; --paper:#f1f3f7; --blue:#2558cf; --line:rgba(17,18,20,.18); }
 * { box-sizing:border-box; }

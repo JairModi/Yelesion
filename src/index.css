@@ -1,8 +1,14 @@
+/* Global page-level resets. The bulk of the visual design lives in
+   App.css, which is imported by App.jsx; this file only handles the
+   very base <body>/#root sizing that Vite's default template ships with. */
+
 body {
   margin: 0;
   min-width: 320px;
 }
 
+/* Ensures the app's root container always fills at least the viewport
+   height, even when there isn't much content on the page. */
 #root {
   min-height: 100vh;
 }

@@ -1,3 +1,10 @@
+<!--
+  Vite entry HTML for the React app.
+  Vite injects the dev-server/HMR client automatically and, at build time,
+  rewrites the module script tag below to point at the hashed bundle in
+  dist/assets/. Everything visible on the page is rendered by React into
+  the empty <div id="root">.
+-->
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,6 +14,7 @@
     <title>Yelesion — Software Solutions</title>
   </head>
   <body>
+    <!-- React mounts the whole app (see src/main.jsx) inside this div. -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

@@ -1,13 +1,39 @@
+// NOTE: This is the version of the app actually wired up by main.jsx.
+// A parallel, split-apart version of the same UI (Model/View/Controller
+// style) lives in src/pages, src/components, src/hooks and src/models —
+// that version is not currently imported anywhere, but its comments
+// explain the intended architecture if this file is ever refactored to
+// use it instead.
+
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
+/**
+ * Reveal
+ * Wraps its children in a <section> that starts hidden and fades/slides
+ * into view (via the "is-visible" CSS class) the first time it scrolls
+ * into the viewport. Uses IntersectionObserver so the animation is only
+ * triggered once, then stops watching to save work.
+ *
+ * Props:
+ * - children: content to render inside the section
+ * - className: extra class name(s) appended to "reveal"
+ * - delay: value stored on data-reveal-delay so CSS can stagger the
+ *   animation timing per section
+ * - id: optional id for the section (used for anchor links, e.g. #contact)
+ */
 function Reveal({ children, className = "", delay = 0, id }) {
+  // Whether the section has scrolled into view yet.
   const [visible, setVisible] = useState(false);
+  // Ref to the underlying <section> DOM node, so we can observe it.
   const revealRef = useRef(null);
 
   useEffect(() => {
     const element = revealRef.current;
     if (!element) return undefined;
+
+    // Watch the section and flip `visible` to true the moment at least
+    // 15% of it is on screen, then stop observing (one-shot reveal).
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -18,6 +44,8 @@ function Reveal({ children, className = "", delay = 0, id }) {
       { threshold: 0.15 },
     );
     observer.observe(element);
+
+    // Clean up the observer if the component unmounts before it fires.
     return () => observer.disconnect();
   }, [delay]);
 
@@ -33,6 +61,16 @@ function Reveal({ children, className = "", delay = 0, id }) {
   );
 }
 
+/**
+ * SiteNav
+ * Top navigation bar shared by both the marketing homepage and the
+ * portfolio page. Purely presentational — it just renders different
+ * links depending on which page it's on.
+ *
+ * Props:
+ * - portfolio: true when rendered on the portfolio page (shows a
+ *   "Back home" link instead of the usual in-page anchors)
+ */
 function SiteNav({ portfolio = false }) {
   return (
     <nav className="nav" aria-label="Main navigation">
@@ -58,6 +96,12 @@ function SiteNav({ portfolio = false }) {
   );
 }
 
+/**
+ * PortfolioPage
+ * Static "team" page listing links out to each team member's individual
+ * portfolio page (plain standalone .html files served alongside the
+ * React app, not React components themselves).
+ */
 function PortfolioPage() {
   return (
     <main className="portfolio-page">
@@ -102,10 +146,23 @@ function PortfolioPage() {
   );
 }
 
+/**
+ * App
+ * The main marketing homepage: hero section, "meaning" blurb, and a
+ * simple contact form, wrapped in Reveal sections for scroll animation.
+ */
 function App() {
+  // Controlled input value for the contact email field.
   const [email, setEmail] = useState("");
+  // Whether the contact form has been submitted, so we can swap the
+  // form out for a thank-you message.
   const [submitted, setSubmitted] = useState(false);
 
+  // NOTE: this only checks that the field isn't empty — it doesn't
+  // validate email format, and it doesn't send the data anywhere
+  // (no API call / fetch). It just flips the UI into its "submitted"
+  // state. Compare with src/hooks/useContactForm.js, which does real
+  // validation via src/models/contactModel.js.
   function handleSubmit(event) {
     event.preventDefault();
     if (email.trim()) setSubmitted(true);
@@ -155,6 +212,8 @@ function App() {
           <p className="art-caption">Connect / Evolve / Advance</p>
         </div>
       </section>
+      {/* Section 01: short blurb explaining where the name "Yelesion" and the
+          brand's positioning come from. Fades in via <Reveal>. */}
       <Reveal className="meaning" delay="1" id="meaning">
         <p className="section-index">01 / The idea behind Yelesion</p>
         <div>
@@ -171,6 +230,8 @@ function App() {
           </p>
         </div>
       </Reveal>
+      {/* Section 02: the contact form itself. Swaps between the form and a
+          success message based on the `submitted` state above. */}
       <Reveal className="contact" delay="2" id="contact">
         <p className="section-index">02 / Let’s move forward</p>
         <h2>
@@ -210,6 +271,13 @@ function App() {
   );
 }
 
+/**
+ * Root
+ * Very lightweight "router": since this is a single-page Vite app with
+ * no routing library, we just look at the current URL path directly and
+ * decide which page component to render. Only "/" (App) and "/portfolio"
+ * (PortfolioPage) are handled; any other path currently falls back to App.
+ */
 export default function Root() {
   return window.location.pathname === "/portfolio" ? (
     <PortfolioPage />
