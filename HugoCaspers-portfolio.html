@@ -336,6 +336,13 @@
     border-bottom:1px solid transparent;
   }
   .commit-link:hover{ border-bottom-color:var(--accent); }
+  .projects-layout{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  .home-link{ white-space:nowrap; }
 
   /* CONTACT */
   .contact-term{
@@ -368,6 +375,7 @@
 
   @media (max-width:680px){
     .about-grid{ grid-template-columns:1fr; }
+    .projects-layout{ grid-template-columns:1fr; gap:20px; }
     .nav-links{ gap:14px; }
     .hero{ padding:64px 0 48px; }
   }
@@ -441,7 +449,10 @@
       <h2>Projects</h2>
     </div>
 
-    <div class="log">
+    <div class="projects-layout">
+      <a class="btn home-link" href="index.html">← Yelesion homepage</a>
+
+      <div class="log">
 
       <article class="commit">
         <div class="commit-meta">
@@ -465,6 +476,7 @@
         <div class="stack"></div>
       </article>
 
+      </div>
     </div>
   </section>
 
