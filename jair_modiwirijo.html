@@ -262,13 +262,10 @@
     max-width:var(--max);
     margin:0 auto;
     padding:88px 24px 64px;
-    display:grid;
-    grid-template-columns:1.15fr 0.85fr;
-    gap:56px;
-    align-items:center;
+    display:block;
   }
   @media (max-width:840px){
-    .hero{grid-template-columns:1fr; padding:52px 24px 40px;}
+    .hero{padding:52px 24px 40px;}
   }
 
   .hero-copy > *{
@@ -354,69 +351,6 @@
   }
   .btn-ghost:hover{border-color:var(--accent); transform:translateY(-2px); box-shadow:0 10px 22px -14px var(--glow);}
   .btn-ghost:active{transform:translateY(0px) scale(0.98);}
-
-  /* photo panel — angled cut corner like reference */
-  .hero-visual{
-    position:relative;
-    display:flex;
-    justify-content:center;
-    opacity:0;
-    transform:translateY(18px) scale(0.97);
-    animation:heroIn 0.8s cubic-bezier(.16,.8,.3,1) 0.30s forwards;
-  }
-  .photo-panel{
-    width:100%;
-    max-width:340px;
-    aspect-ratio:1/0.82;
-    clip-path:polygon(0 0, 88% 0, 100% 14%, 100% 100%, 0 100%);
-    border:1.5px solid var(--accent);
-    box-shadow:0 0 0 1px rgba(56,189,248,0.15), 0 20px 60px -20px var(--glow);
-    background:
-      radial-gradient(circle at 30% 20%, rgba(56,189,248,0.16), transparent 55%),
-      var(--surface);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    color:var(--muted);
-    font-size:12.5px;
-    text-align:center;
-    position:relative;
-    animation:floaty 5s ease-in-out infinite;
-  }
-  @keyframes floaty{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-10px);}
-  }
-  .photo-panel svg{opacity:0.55; color:var(--accent); animation:pulseIcon 3s ease-in-out infinite;}
-  @keyframes pulseIcon{
-    0%,100%{opacity:0.4; transform:scale(1);}
-    50%{opacity:0.75; transform:scale(1.08);}
-  }
-  .photo-badge{
-    position:absolute;
-    bottom:-18px;
-    right:-14px;
-    background:var(--surface-2);
-    border:1px solid var(--accent);
-    border-radius:10px;
-    padding:12px 16px;
-    font-family:'Space Mono', monospace;
-    font-size:12px;
-    color:var(--ink);
-    box-shadow:0 10px 30px -12px var(--glow);
-    animation:badgeIn 0.6s cubic-bezier(.16,.8,.3,1) 0.75s both;
-  }
-  @keyframes badgeIn{
-    from{opacity:0; transform:translate(10px, 10px) scale(0.9);}
-    to{opacity:1; transform:translate(0,0) scale(1);}
-  }
-  .photo-badge b{color:var(--accent); display:block; font-size:13px;}
-  @media (max-width:840px){
-    .hero-visual{justify-content:flex-start; margin-top:12px;}
-    .photo-badge{right:auto; left:16px;}
-  }
 
   /* ---------- sections ---------- */
   section{
@@ -784,13 +718,6 @@
           <a href="#contact" class="btn btn-ghost">Get in touch</a>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="photo-panel">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-          <span>Add your photo here</span>
-          <div class="photo-badge"><b>Year 2</b>MBO 4 · Firda</div>
-        </div>
-      </div>
   </section>
 
   <section style="border-top:none; padding-top:0; padding-bottom:56px;">
@@ -891,17 +818,6 @@
 
         <div class="card">
           <div class="card-num">02</div>
-          <h3>Weather Report</h3>
-          <p>A Python weather app that pulls current-day conditions for 12 specific cities and looks up past weather data, all read from a local JSON dataset.</p>
-          <div class="tag-row">
-            <span class="tag">Python</span>
-            <span class="tag">JSON</span>
-          </div>
-          <span class="card-link disabled">Code not published</span>
-        </div>
-
-        <div class="card">
-          <div class="card-num">03</div>
           <h3>StageLink</h3>
           <p>A group project platform where companies verify their account and post assignments for students to take on. I built the company-facing side: verification and assignment management.</p>
           <div class="tag-row">
