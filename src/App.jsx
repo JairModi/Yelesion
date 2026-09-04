@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 // Import the CSS file that styles this component
-import "./App.css";
+import "./pages/App.css";
 
 function Reveal({ children, className = "", delay = 0, id }) {
   const [visible, setVisible] = useState(false);
